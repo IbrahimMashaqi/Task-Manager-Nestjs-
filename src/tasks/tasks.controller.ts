@@ -22,17 +22,29 @@ export class TasksController {
   getTaskById(@Param('id') id: string): Promise<Task> {
     return this.tasksService.getTaskById(id);
   }
-  // @Get()
-  // getAllTasks(@Query() filterDto: GetTaskFilterDto): Task[] {
-  //   if (Object.keys(filterDto).length !== 0)
-  //     return this.tasksService.getTasksWithFilters(filterDto);
-  //   return this.tasksService.getAllTasks();
-  // }
 
-  // @Post()
-  // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-  //   return this.tasksService.createTask(createTaskDto);
-  // }
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksService.CreateTask(createTaskDto);
+  }
+
+  @Delete('/:id')
+  deleteTask(@Param('id') id: string): Promise<void> {
+    return this.tasksService.deleteTask(id);
+  }
+
+  @Patch('/:id/status')
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    return this.tasksService.updateTaskStatus(id, updateTaskStatusDto);
+  }
+
+  @Get()
+  getAllTasks(@Query() filterDto: GetTaskFilterDto): Promise<Task[]> {
+    return this.tasksService.getTasks(filterDto);
+  }
 
   // @Delete('/:id')
   // deleteTask(@Param('id', ParseUUIDPipe) id: string): void {

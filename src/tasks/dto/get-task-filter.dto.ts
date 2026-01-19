@@ -1,13 +1,12 @@
-import { Optional } from '@nestjs/common';
 import { TaskStatus } from '../task.status.enum';
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class GetTaskFilterDto {
-  @Optional()
+  @IsOptional()
   @IsEnum(TaskStatus)
   status?: TaskStatus;
 
-  @Optional()
+  @IsOptional()
   @IsString()
   search?: string;
 }
