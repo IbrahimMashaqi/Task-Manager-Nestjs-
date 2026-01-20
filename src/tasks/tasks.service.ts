@@ -13,7 +13,6 @@ export class TasksService {
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
   ) {}
-
   async getTaskById(id: string): Promise<Task> {
     const found = await this.taskRepository.findOneBy({ id });
     if (!found) throw new NotFoundException(`Task with ID: "${id}" not found`);
