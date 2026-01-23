@@ -1,98 +1,214 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Task Management API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust RESTful API for managing tasks with user authentication, built with NestJS and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Overview
 
-## Description
+This API provides a complete task management system with secure user authentication, allowing users to create, update, filter, and delete their tasks with full data isolation.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Live Resources
 
-## Project setup
+- **API Deployment:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app
+- **API Documentation:** [Task Manager API Documentation](https://documenter.getpostman.com/view/your-collection-id/task-manager-api)
+
+## Features
+
+- **User Authentication** - JWT-based registration and login
+- **Task CRUD Operations** - Create, read, update, and delete tasks
+- **Advanced Filtering** - Filter tasks by status or search text
+- **Data Security** - Password hashing with bcrypt
+- **User Isolation** - Each user can only access their own tasks
+- **Input Validation** - Request validation using DTOs
+
+## Technology Stack
+
+- **NestJS** - Progressive Node.js framework
+- **PostgreSQL** - Relational database
+- **TypeORM** - Object-relational mapping
+- **JWT** - JSON Web Tokens for authentication
+- **bcrypt** - Password hashing
+- **class-validator** - DTO validation
+
+## Installation
 
 ```bash
-$ npm install
+# Clone repository
+git clone https://github.com/YOUR_USERNAME/task-management-api.git
+
+# Navigate to project
+cd task-management-api
+
+# Install dependencies
+npm install
 ```
 
-## Compile and run the project
+## Configuration
 
-```bash
-# development
-$ npm run start
+Create `.env` file:
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+DB_DATABASE=task_management
+JWT_SECRET=your_secret_key
 ```
 
-## Run tests
+## Running the Application
 
 ```bash
-# unit tests
-$ npm run test
+# Development
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
+# Production
+npm run build
+npm run start:prod
+```
 
-# test coverage
-$ npm run test:cov
+API runs on `http://localhost:3000`
+
+## API Documentation
+
+### Authentication
+
+**Register User**
+
+```http
+POST /auth/signup
+Content-Type: application/json
+
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+**Login**
+
+```http
+POST /auth/signin
+Content-Type: application/json
+
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+### Tasks
+
+**Get All Tasks**
+
+```http
+GET /tasks?status=OPEN&search=example
+Authorization: Bearer {token}
+```
+
+**Get Task by ID**
+
+```http
+GET /tasks/{id}
+Authorization: Bearer {token}
+```
+
+**Create Task**
+
+```http
+POST /tasks
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "title": "string",
+  "description": "string"
+}
+```
+
+**Update Task Status**
+
+```http
+PATCH /tasks/{id}/status
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "status": "IN_PROGRESS"
+}
+```
+
+**Delete Task**
+
+```http
+DELETE /tasks/{id}
+Authorization: Bearer {token}
+```
+
+### Task Status Options
+
+- `OPEN`
+- `IN_PROGRESS`
+- `DONE`
+
+## Database Schema
+
+**Users Table**
+
+- id (UUID)
+- username (unique)
+- password (hashed)
+- tasks (relation)
+
+**Tasks Table**
+
+- id (UUID)
+- title
+- description
+- status
+- userId (foreign key)
+
+## Testing
+
+```bash
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
+
+# Coverage
+npm run test:cov
 ```
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+The application is deployed on Railway with automatic deployments from the main branch.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+**Live API:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+## Project Structure
+
+```
+src/
+├── auth/
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   ├── auth.module.ts
+│   ├── user.entity.ts
+│   └── dto/
+├── tasks/
+│   ├── tasks.controller.ts
+│   ├── tasks.service.ts
+│   ├── tasks.module.ts
+│   ├── task.entity.ts
+│   └── dto/
+└── main.ts
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Author
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Ibrahim Mashaqi
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT
