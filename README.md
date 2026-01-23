@@ -9,7 +9,7 @@ This API provides a complete task management system with secure user authenticat
 ## Live Resources
 
 - **API Deployment:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app
-- **API Documentation:** [Task Manager API Documentation](https://documenter.getpostman.com/view/your-collection-id/task-manager-api)
+- **Swagger Documentation:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app/api
 
 ## Features
 
@@ -19,6 +19,7 @@ This API provides a complete task management system with secure user authenticat
 - **Data Security** - Password hashing with bcrypt
 - **User Isolation** - Each user can only access their own tasks
 - **Input Validation** - Request validation using DTOs
+- **API Documentation** - Interactive Swagger UI
 
 ## Technology Stack
 
@@ -28,12 +29,14 @@ This API provides a complete task management system with secure user authenticat
 - **JWT** - JSON Web Tokens for authentication
 - **bcrypt** - Password hashing
 - **class-validator** - DTO validation
+- **Swagger** - API documentation
 
 ## Installation
 
 ```bash
 # Clone repository
-git clone https://github.com/YOUR_USERNAME/task-management-api.git
+git clone https://github.com/IbrahimMashaqi/Task-Manager-Nestjs-.git
+
 
 # Navigate to project
 cd task-management-api
@@ -53,6 +56,7 @@ DB_USERNAME=postgres
 DB_PASSWORD=your_password
 DB_DATABASE=task_management
 JWT_SECRET=your_secret_key
+PORT=3000
 ```
 
 ## Running the Application
@@ -67,6 +71,8 @@ npm run start:prod
 ```
 
 API runs on `http://localhost:3000`
+
+Swagger documentation available at `http://localhost:3000/api`
 
 ## API Documentation
 
@@ -96,7 +102,11 @@ Content-Type: application/json
 }
 ```
 
+Returns JWT token for authenticated requests.
+
 ### Tasks
+
+All task endpoints require Bearer token authentication.
 
 **Get All Tasks**
 
@@ -185,6 +195,8 @@ npm run test:cov
 The application is deployed on Railway with automatic deployments from the main branch.
 
 **Live API:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app
+
+**Swagger Docs:** https://task-manager-nestjs-ibrahim-mashaqi.up.railway.app/api
 
 ## Project Structure
 
